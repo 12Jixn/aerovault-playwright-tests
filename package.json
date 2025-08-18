@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tst": "playwright test",
+    "tst:ui": "playwright test --ui",
+    "tst:headed": "playwright test --headed",
+    "tst:smoke": "playwright test --grep @smoke",
+    "show-report": "playwright show-report"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +16,7 @@
   "devDependencies": {
     "@playwright/test": "^1.54.2",
     "@types/node": "^24.3.0",
+    "dotenv": "^17.2.1",
     "typescript": "^5.9.2"
   }
 }
