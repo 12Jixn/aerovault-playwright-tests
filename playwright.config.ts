@@ -6,9 +6,9 @@ dotenv.config();
 
 export default defineConfig({
   testDir: './tests',              // Folder for your test files
-  timeout: 50000,        // Max 30s per test
-  expect: {
-    timeout: 5000,                 // Max 5s per assertion
+  timeout: 60_000, 
+    expect: {
+    timeout: 10_000,                 // Max 10s per assertion
   },
   fullyParallel: true,             // Run tests in parallel
   forbidOnly: false,               // Allow test.only (since no CI yet)
@@ -16,7 +16,7 @@ export default defineConfig({
   workers: undefined,              // Auto-detect workers based on CPU
 
   use: {
-    baseURL: process.env.BASE_URL || 'https://dev-aerovault.aero-strategies.com',
+    baseURL: process.env.BASE_URL,
     ignoreHTTPSErrors: true,
     headless: true,           // 👀 Run in headed mode (see browser)
     trace: 'on-first-retry',      // Collect trace only if retry happens

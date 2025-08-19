@@ -1,16 +1,27 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
 
-test('Login with valid credentials', async ({ page }) => {
-  await page.goto('/login');
+test.describe('Login Scenarios', () => {
 
-  await page.fill('#login-email-input', process.env.AEROVAULT_USER || 'avap');
-  await page.fill('#login-password-input', process.env.AEROVAULT_PASS || '123');
-  await page.getByRole('button', { name: 'Login' }).click();
+  test('✅ Successful login navigates to Dashboard', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login('graces', '123');
+    await loginPage.assertSuccessfulLogin();
+  });
 
-  // ✅ Explicit wait for dashboard
-  await page.waitForURL('**/dashboard', { timeout: 15000 });
+  test('❌ Invalid credentials show error message', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login('graces', '12345');
+    await loginPage.assertInvalidCredentials();
+  });
 
-  // ✅ Check for success indicator
-  await expect(page.getByText('Successfully Logged In!')).toBeVisible({ timeout: 15000 });
+  test('⚠️ Empty fields show unauthorized message', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login('', '');
+    await loginPage.assertUnauthorized();
+  });
+
 });
-
